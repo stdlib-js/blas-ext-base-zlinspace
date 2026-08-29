@@ -35,32 +35,38 @@ limitations under the License.
 
 > Fill a double-precision complex floating-point strided array with linearly spaced values over a specified interval.
 
-<section class="installation">
 
-## Installation
-
-```bash
-npm install @stdlib/blas-ext-base-zlinspace
-```
-
-Alternatively,
-
--   To load the package in a website via a `script` tag without installation and bundlers, use the [ES Module][es-module] available on the [`esm`][esm-url] branch (see [README][esm-readme]).
--   If you are using Deno, visit the [`deno`][deno-url] branch (see [README][deno-readme] for usage intructions).
--   For use in Observable, or in browser/node environments, use the [Universal Module Definition (UMD)][umd] build available on the [`umd`][umd-url] branch (see [README][umd-readme]).
-
-The [branches.md][branches-url] file summarizes the available branches and displays a diagram illustrating their relationships.
-
-To view installation and usage instructions specific to each branch build, be sure to explicitly navigate to the respective README files on each branch, as linked to above.
-
-</section>
 
 <section class="usage">
 
 ## Usage
 
+To use in Observable,
+
 ```javascript
-var zlinspace = require( '@stdlib/blas-ext-base-zlinspace' );
+zlinspace = require( 'https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zlinspace@umd/browser.js' )
+```
+
+To vendor stdlib functionality and avoid installing dependency trees for Node.js, you can use the UMD server build:
+
+```javascript
+var zlinspace = require( 'path/to/vendor/umd/blas-ext-base-zlinspace/index.js' )
+```
+
+To include the bundle in a webpage,
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zlinspace@umd/browser.js"></script>
+```
+
+If no recognized module system is present, access bundle contents via the global scope:
+
+```html
+<script type="text/javascript">
+(function () {
+    window.zlinspace;
+})();
+</script>
 ```
 
 #### zlinspace( N, start, stop, endpoint, x, strideX )
@@ -195,11 +201,16 @@ zlinspace.ndarray( 2, strt, stp, true, x, 1, x.length-2 );
 
 <!-- eslint no-undef: "error" -->
 
-```javascript
-var Complex128Array = require( '@stdlib/array-complex128' );
-var Complex128 = require( '@stdlib/complex-float64-ctor' );
-var logEach = require( '@stdlib/console-log-each' );
-var zlinspace = require( '@stdlib/blas-ext-base-zlinspace' );
+```html
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/array-complex128@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/complex-float64-ctor@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/console-log-each@umd/browser.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/stdlib-js/blas-ext-base-zlinspace@umd/browser.js"></script>
+<script type="text/javascript">
+(function () {
 
 var x = new Complex128Array( 10 );
 
@@ -208,6 +219,11 @@ var stp = new Complex128( 10.0, 5.0 );
 
 zlinspace( x.length, strt, stp, true, x, 1 );
 logEach( '%s', x );
+
+})();
+</script>
+</body>
+</html>
 ```
 
 </section>
@@ -216,151 +232,7 @@ logEach( '%s', x );
 
 <!-- C interface documentation. -->
 
-* * *
 
-<section class="c">
-
-## C APIs
-
-<!-- Section to include introductory text. Make sure to keep an empty line after the intro `section` element and another before the `/section` close. -->
-
-<section class="intro">
-
-</section>
-
-<!-- /.intro -->
-
-<!-- C usage documentation. -->
-
-<section class="usage">
-
-### Usage
-
-```c
-#include "stdlib/blas/ext/base/zlinspace.h"
-```
-
-#### stdlib_strided_zlinspace( N, start, stop, endpoint, \*X, strideX )
-
-Fills a double-precision complex floating-point strided array with linearly spaced values over a specified interval.
-
-```c
-#include "stdlib/complex/float64/ctor.h"
-#include <stdbool.h>
-
-stdlib_complex128_t start = stdlib_complex128( 0.0, 0.0 );
-stdlib_complex128_t stop = stdlib_complex128( 4.0, 2.0 );
-
-double x[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-stdlib_strided_zlinspace( 4, start, stop, true, (stdlib_complex128_t *)x, 1 );
-```
-
-The function accepts the following arguments:
-
--   **N**: `[in] CBLAS_INT` number of indexed elements.
--   **start**: `[in] stdlib_complex128_t` start of interval.
--   **stop**: `[in] stdlib_complex128_t` end of interval.
--   **endpoint**: `[in] bool` boolean indicating whether to include the `stop` value when writing values to the input array. If `true`, the input array is filled with evenly spaced values over the closed interval `[start, stop]`. If `false`, the input array is filled with evenly spaced values over the half-open interval `[start, stop)`.
--   **X**: `[out] stdlib_complex128_t*` input array.
--   **strideX**: `[in] CBLAS_INT` stride length.
-
-```c
-void stdlib_strided_zlinspace( const CBLAS_INT N, const stdlib_complex128_t start, const stdlib_complex128_t stop, const bool endpoint, stdlib_complex128_t *X, const CBLAS_INT strideX );
-```
-
-<!-- lint disable maximum-heading-length -->
-
-#### stdlib_strided_zlinspace_ndarray( N, start, stop, endpoint, \*X, strideX, offsetX )
-
-<!-- lint enable maximum-heading-length -->
-
-Fills a double-precision complex floating-point strided array with linearly spaced values over a specified interval using alternative indexing semantics.
-
-```c
-#include "stdlib/complex/float64/ctor.h"
-#include <stdbool.h>
-
-stdlib_complex128_t start = stdlib_complex128( 0.0, 0.0 );
-stdlib_complex128_t stop = stdlib_complex128( 4.0, 2.0 );
-
-double x[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-stdlib_strided_zlinspace_ndarray( 4, start, stop, true, (stdlib_complex128_t *)x, 1, 0 );
-```
-
-The function accepts the following arguments:
-
--   **N**: `[in] CBLAS_INT` number of indexed elements.
--   **start**: `[in] stdlib_complex128_t` start of interval.
--   **stop**: `[in] stdlib_complex128_t` end of interval.
--   **endpoint**: `[in] bool` boolean indicating whether to include the `stop` value when writing values to the input array. If `true`, the input array is filled with evenly spaced values over the closed interval `[start, stop]`. If `false`, the input array is filled with evenly spaced values over the half-open interval `[start, stop)`.
--   **X**: `[out] stdlib_complex128_t*` input array.
--   **strideX**: `[in] CBLAS_INT` stride length.
--   **offsetX**: `[in] CBLAS_INT` starting index.
-
-```c
-void stdlib_strided_zlinspace_ndarray( const CBLAS_INT N, const stdlib_complex128_t start, const stdlib_complex128_t stop, const bool endpoint, stdlib_complex128_t *X, const CBLAS_INT strideX, const CBLAS_INT offsetX );
-```
-
-</section>
-
-<!-- /.usage -->
-
-<!-- C API usage notes. Make sure to keep an empty line after the `section` element and another before the `/section` close. -->
-
-<section class="notes">
-
-</section>
-
-<!-- /.notes -->
-
-<!-- C API usage examples. -->
-
-<section class="examples">
-
-### Examples
-
-```c
-#include "stdlib/blas/ext/base/zlinspace.h"
-#include "stdlib/complex/float64/ctor.h"
-#include "stdlib/complex/float64/real.h"
-#include "stdlib/complex/float64/imag.h"
-#include <stdio.h>
-#include <stdbool.h>
-
-int main( void ) {
-    // Create a strided array:
-    double x[] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-
-    // Specify the number of indexed elements:
-    const int N = 8;
-
-    // Specify a stride:
-    const int strideX = 1;
-
-    // Create start and stop values:
-    const stdlib_complex128_t start = stdlib_complex128( 0.0, 0.0 );
-    const stdlib_complex128_t stop = stdlib_complex128( 10.0, 5.0 );
-
-    // Fill the array:
-    stdlib_strided_zlinspace( N, start, stop, true, (stdlib_complex128_t *)x, strideX );
-
-    // Print the result:
-    for ( int i = 0; i < N; i++ ) {
-        stdlib_complex128_t v = ( (stdlib_complex128_t *)x )[ i ];
-        printf( "x[ %i ] = %lf + %lfi\n", i, stdlib_complex128_real( v ), stdlib_complex128_imag( v ) );
-    }
-}
-```
-
-</section>
-
-<!-- /.examples -->
-
-</section>
-
-<!-- /.c -->
 
 <!-- Section for related `stdlib` packages. Do not manually edit this section, as it is automatically populated. -->
 
@@ -442,7 +314,7 @@ Copyright &copy; 2016-2026. The Stdlib [Authors][stdlib-authors].
 
 [stdlib-license]: https://raw.githubusercontent.com/stdlib-js/blas-ext-base-zlinspace/main/LICENSE
 
-[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128
+[@stdlib/array/complex128]: https://github.com/stdlib-js/array-complex128/tree/umd
 
 [mdn-typed-array]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
 
